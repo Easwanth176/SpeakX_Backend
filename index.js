@@ -1,10 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const { ApolloServer, gql } = require('apollo-server-express');
 const jwt = require('jsonwebtoken');
 const User = require('./models/user');
 
 const app = express();
+app.use(cors());
 const port = 5000;
 
 const url = 'mongodb+srv://easwanth123:AbYIaNzfzyeXEyaF@cluster0.bkvrbcv.mongodb.net/SpeakX';
