@@ -52,6 +52,8 @@ const typeDefs = gql`
     retweet(id: ID!): Tweet
     createComment(text: String!, tweetId: ID!): Comment
     deleteComment(id: ID!): Comment
+    followUser(userId: ID!): User
+    unfollowUser(userId: ID!): User
   }
 `;
 

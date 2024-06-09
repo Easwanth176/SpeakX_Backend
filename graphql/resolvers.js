@@ -118,6 +118,47 @@ const resolvers = {
     deleteComment: async (parent, args) => {
       const comment = await Comment.findByIdAndDelete(args.id);
       return comment ? comment.toObject({ getters: true }) : null;
+    },
+    followUser: async (parent, args, context) => {
+      const token = context.req.headers.authorization;
+      if (!token) {
+        throw new Error('Authentication required');
+      }
+      const decoded = jwt.verify(token, 'secret');
+      const user = await User.findById(decoded.id);
+      const followed = await User.findById(args.userId);
+      if (!followed) {
+        throw new Error('User not found');
+      }
+      if (user.following.includes(followed.id)) {
+        throw new Error('Already following user');
+      }
+      user.following.push(followed.id);
+      followed.followers.push(user.id);
+      await user.save();
+      await followed.save();
+      return user.toObject({ getters: true });
+    },
+    unfollowUser: async (parent, args, context) => {
+      const token = context.req.headers.authorization;
+      if (!token) {
+        throw new Error('Authentication required');
+      }
+      const decoded = jwt.verify(token, 'secret');
+      const user = await User.findById(decoded.id);
+      const followed = await User.findById(args.userId
+      );
+      if (!followed) {
+        throw new Error('User not found');
+      }
+      if (!user.following.includes(followed.id)) {
+        throw new Error('Not following user');
+      }
+      user.following = user.following.filter(id => id.toString() !== followed.id.toString());
+      followed.followers = followed.followers.filter(id => id.toString() !== user.id.toString());
+      await user.save();
+      await followed.save();
+      return user.toObject({ getters: true });
     }
   },
   Tweet: {
