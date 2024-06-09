@@ -15,6 +15,21 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+  },
+  tweets: [{ 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Tweet' 
+  }],
+  followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+});
+
+userSchema.set('toObject', {
+  transform: function (doc, ret, options) {
+    ret.id = ret._id.toString(); // Convert ObjectId to string
+    delete ret._id;
+    delete ret.__v;
+    return ret;
   }
 });
 
