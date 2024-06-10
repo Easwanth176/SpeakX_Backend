@@ -19,9 +19,9 @@ https://speakx-backend.onrender.com/graphql
 
   Clone the repository:
 
-   \`\`\`bash
+   ```bash
    git clone https://github.com/Easwanth176/SpeakX_Backend.git
-   \`\`\`
+   ```
 
 ## How to run the project
 ```bash
