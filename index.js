@@ -14,6 +14,10 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(cors({
+  origin: 'https://speakx.netlify.app/',
+  credentials: true,
+}));
 
 const port = 5000;
 const url = "mongodb+srv://easwanth123:AbYIaNzfzyeXEyaF@cluster0.bkvrbcv.mongodb.net/SpeakX";
